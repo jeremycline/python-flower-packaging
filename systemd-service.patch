@@ -1,0 +1,20 @@
+diff --git a/celery-flower.service b/celery-flower.service
+new file mode 100644
+index 0000000..204d909
+--- /dev/null
++++ b/celery-flower.service
+@@ -0,0 +1,11 @@
++[Unit]
++Description=Real-time monitor and web admin for Celery distributed task queue
++Documentation=file:///usr/share/doc/python-flower/README.rst
++After=network.target
++
++[Service]
++Type=simple
++ExecStart=/usr/bin/flower --port=5555
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/systemd-service.patch b/systemd-service.patch
+new file mode 100644
+index 0000000..e69de29

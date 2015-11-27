@@ -9,8 +9,13 @@ Summary: %{sum}
 License: BSD
 URL: https://github.com/mher/%{srcname}
 Source0: https://pypi.python.org/packages/source/f/flower/flower-%{version}.tar.gz
+# Patch0: systemd-service.patch
 BuildArch: noarch
 BuildRequires: python2-devel python3-devel
+# BuildRequires: systemd
+# Requires(post): systemd
+# Requires(preun): systemd
+# Requires(postun): systemd
 
 
 %description
@@ -22,6 +27,9 @@ broker monitoring, and an HTTP API.
 %package -n python2-%{srcname}
 Summary: %{sum}
 Requires: python-celery >= 2.5.0
+Requires: python2-certifi
+Requires: python-futures
+Requires: python-backports-ssl_match_hostname
 Requires: python-tornado >= 4.0.0
 Requires: python-babel
 Requires: pytz
@@ -39,6 +47,8 @@ Requires: python3-celery >= 2.5.0
 Requires: python3-tornado >= 4.0.0
 Requires: python3-babel
 Requires: python3-pytz
+# python3-kombu, a dep of kombu, should be requiring this
+Requires: python3-anyjson
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -67,6 +77,7 @@ broker monitoring, and an HTTP API.
 %{_bindir}/%{srcname}
 %{python2_sitelib}/%{srcname}
 %{python2_sitelib}/*.egg-info
+# %{_unitdir}/celery-flower.service
 
 
 %files -n python3-%{srcname}
@@ -75,6 +86,17 @@ broker monitoring, and an HTTP API.
 %{_bindir}/%{srcname}
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/*.egg-info
+# %{_unitdir}/celery-flower.service
+
+
+# %post
+# %systemd_post celery-flower.service
+
+# %preun
+# %systemd_preun celery-flower.service
+
+# %postun
+# %systemd_postun_with_restart celery-flower.service
 
 
 %changelog
