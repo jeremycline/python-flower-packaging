@@ -9,13 +9,13 @@ Summary: %{sum}
 License: BSD
 URL: https://github.com/mher/%{srcname}
 Source0: https://pypi.python.org/packages/source/f/flower/flower-%{version}.tar.gz
-# Patch0: systemd-service.patch
+Patch0: systemd-unit.patch
 BuildArch: noarch
 BuildRequires: python2-devel python3-devel
-# BuildRequires: systemd
-# Requires(post): systemd
-# Requires(preun): systemd
-# Requires(postun): systemd
+BuildRequires: systemd
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
 
 
 %description
@@ -69,6 +69,9 @@ broker monitoring, and an HTTP API.
 %install
 %py2_install
 %py3_install
+mkdir -p %{buildroot}%{_unitdir}
+cp flower.service %{buildroot}%{_unitdir}/flower.service
+
 
 
 %files -n python2-%{srcname}
@@ -77,7 +80,7 @@ broker monitoring, and an HTTP API.
 %{_bindir}/%{srcname}
 %{python2_sitelib}/%{srcname}
 %{python2_sitelib}/*.egg-info
-# %{_unitdir}/celery-flower.service
+%{_unitdir}/flower.service
 
 
 %files -n python3-%{srcname}
@@ -86,17 +89,17 @@ broker monitoring, and an HTTP API.
 %{_bindir}/%{srcname}
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/*.egg-info
-# %{_unitdir}/celery-flower.service
+%{_unitdir}/flower.service
 
 
-# %post
-# %systemd_post celery-flower.service
+%post
+%systemd_post flower.service
 
-# %preun
-# %systemd_preun celery-flower.service
+%preun
+%systemd_preun flower.service
 
-# %postun
-# %systemd_postun_with_restart celery-flower.service
+%postun
+%systemd_postun_with_restart flower.service
 
 
 %changelog

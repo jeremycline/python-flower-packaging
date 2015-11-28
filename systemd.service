@@ -1,0 +1,11 @@
+[Unit]
+Description=Real-time monitor and web admin for Celery distributed task queue
+Documentation=file:///usr/share/doc/python3-flower/README.rst
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/flower
+
+[Install]
+WantedBy=multi-user.target
