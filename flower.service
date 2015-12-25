@@ -1,0 +1,10 @@
+[Unit]
+Description=Real-time monitor and web admin for Celery distributed task queue
+After=network.target
+
+[Service]
+PrivateDevices=Yes
+ExecStart=/usr/bin/flower --conf /etc/flower/flowerconfig.py
+
+[Install]
+WantedBy=multi-user.target
