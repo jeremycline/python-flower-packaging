@@ -1,0 +1,16 @@
+--- tests/api/test_control.py	2015-12-25 23:55:35.140044901 -0500
++++ tests/api/test_control.py	2015-12-25 23:57:59.650472628 -0500
+@@ -34,7 +34,12 @@
+         celery.control.broadcast = MagicMock(return_value=[{'test': 'ok'}])
+         r = self.post('/api/worker/pool/restart/test', body={})
+         self.assertEqual(200, r.code)
+-        celery.control.broadcast.assert_called_once()
++        celery.control.broadcast.assert_called_once_with(
++            'pool_restart',
++            arguments={'reload': False},
++            destination=['test'],
++            reply=True
++        )
+ 
+     def test_pool_grow(self):
+         celery = self._app.capp

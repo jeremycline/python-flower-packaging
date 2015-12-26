@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 PrivateDevices=Yes
-ExecStart=/usr/bin/flower --conf /etc/flower/flowerconfig.py
+ExecStart=/usr/bin/flower --conf /etc/flower/config.py
 
 [Install]
 WantedBy=multi-user.target
