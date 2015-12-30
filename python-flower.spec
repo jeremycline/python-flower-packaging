@@ -4,7 +4,7 @@
 
 Name: python-%{srcname}
 Version: 0.8.3
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: %{sum}	
 License: BSD
 URL: https://github.com/mher/%{srcname}
@@ -33,6 +33,12 @@ Requires(preun): systemd
 Requires(postun): systemd
 BuildRequires: systemd
 BuildRequires: python3-devel
+# Required to run the unit tests
+BuildRequires: python3-celery >= 2.5.0
+BuildRequires: python3-tornado >= 4.0.0
+BuildRequires: python3-babel
+BuildRequires: python3-pytz
+BuildRequires: python3-mock
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -113,6 +119,9 @@ install -p -D -T -m 0644 %{SOURCE2} %{buildroot}/etc/%{srcname}/config.py
 
 
 %changelog
+* Tue Dec 29 2015 Jeremy Cline <jeremy@jcline.org> 0.8.3-3
+- Update the build dependencies.
+
 * Fri Dec 25 2015 Jeremy Cline <jeremy@jcline.org> 0.8.3-2
 - Remove Python 2 package support. 
 - Add docs package.
