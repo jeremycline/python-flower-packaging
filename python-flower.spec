@@ -4,13 +4,15 @@
 
 Name: python-%{srcname}
 Version: 0.8.3
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: %{sum}	
 License: BSD
 URL: https://github.com/mher/%{srcname}
 Source0: https://pypi.python.org/packages/source/f/flower/flower-%{version}.tar.gz
 # Fixes a test in 0.8.3 that has already been fixed in upstream's master branch.
 Patch0: pool_reset_test_fix.patch
+# Change the setup.py shebang to use Python 3.
+Patch1: setup_shebang.patch
 Source1: flower.service
 Source2: flowerconfig.py
 BuildArch: noarch
@@ -69,6 +71,7 @@ This package contains the documentation for Flower.
 %prep
 %setup -n %{srcname}-%{version} -q
 %patch0 -p0
+%patch1 -p0
 rm -r *.egg-info
 find . -name '*.py[co]' -delete
 rm -r docs/.build
@@ -110,7 +113,7 @@ install -p -D -T -m 0644 %{SOURCE2} %{buildroot}/etc/%{srcname}/config.py
 %{python3_sitelib}/%{srcname}
 %{python3_sitelib}/*.egg-info
 %{_unitdir}/%{srcname}.service
-%config(noreplace) /etc/%{srcname}/config.py*
+%config(noreplace) /etc/%{srcname}
 
 
 %files -n python-%{srcname}-doc
@@ -119,6 +122,9 @@ install -p -D -T -m 0644 %{SOURCE2} %{buildroot}/etc/%{srcname}/config.py
 
 
 %changelog
+* Thu Dec 31 2015 Jeremy Cline <jeremy@jcline.org> 0.8.3-4
+- Update the build dependencies.
+
 * Tue Dec 29 2015 Jeremy Cline <jeremy@jcline.org> 0.8.3-3
 - Update the build dependencies.
 
